@@ -13,17 +13,25 @@ namespace Control_2
 {
     public partial class Form2 : Form
     {
+        BackgroundWorker worker = new BackgroundWorker();
+
         public Form2()
         {
             InitializeComponent();
         }
 
         private void Form2_Load(object sender, EventArgs e)
-        {
-            toGrid(Form1.books.ToArray());
+        { 
+            worker.DoWork += (obj, ea) => fillGrid();
+            worker.RunWorkerAsync();
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private async void fillGrid()
+        {
+            toGrid(Data.books.ToArray());
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
             int temp1 = int.Parse(textBox3.Text);
             int temp2 = int.Parse(textBox4.Text);
@@ -31,7 +39,7 @@ namespace Control_2
 
             Book book = new Book(textBox1.Text, textBox2.Text, temp1, temp2, dateTimePicker1.Value, dateTimePicker2.Value, temp3);
             toGrid(book);
-            Form1.books.Add(book);
+            Data.books.Add(book);
         }
     
         private void toGrid(params Book[] books)
@@ -40,15 +48,17 @@ namespace Control_2
                    dataGridView1.Rows.Add(book.id, book.title, book.author, book.year, book.cipher, book.issueTime.ToShortDateString(), book.receivingDate.ToShortDateString(), book.count);  
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var index = dataGridView1.SelectedRows;
 
+            for (int i = 0; i < index.Count; i++)
+            {
+                int a = (int)index[i].Cells[0].Value;
+                Data.books.RemoveAll(x => x.id == a);
+                dataGridView1.Rows.Remove(index[i]);
+            }
+
+        }
     }
 }
-//private static int idCounter = 0;
-//public int id { get; }
-//public string title { get; set; }
-//public string author { get; set; }
-//public int year { get; set; }
-//public int cipher { get; set; }
-//public DateTime issueTime { get; set; }
-//public DateTime receivingDate { get; set; }
-//public int count { get; set; }d

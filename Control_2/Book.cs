@@ -28,6 +28,7 @@ namespace Control_2
             this.cipher = cipher;
             this.issueTime = issueTime;
             this.receivingDate = receivingDate;
+            this.count = count;
         }
 
 
