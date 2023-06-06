@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Control_2
 {
+
     public class Book
     {
         private static int idCounter = 0;
@@ -17,7 +18,9 @@ namespace Control_2
         public DateTime issueTime { get; set; }
         public DateTime receivingDate { get; set; }
         public int count { get; set; }
+        public int rating {get;set; }
         
+       
 
         public Book(string title, string author, int year, int cipher, DateTime issueTime, DateTime receivingDate, int count)
         {
@@ -29,9 +32,23 @@ namespace Control_2
             this.issueTime = issueTime;
             this.receivingDate = receivingDate;
             this.count = count;
+            this.rating = MyRandom.nextInt();
+
         }
 
-
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{id};");
+            sb.Append($"{title};");
+            sb.Append($"{author};");
+            sb.Append($"{year};");
+            sb.Append($"{cipher};");
+            sb.Append(issueTime.ToShortDateString()+ ";");
+            sb.Append(receivingDate.ToShortDateString()+ ";");
+            sb.Append($"{count};");
+            return sb.ToString();
+        }
 
 
 
